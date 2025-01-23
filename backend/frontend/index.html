@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Speaking Test</title>
+</head>
+<body>
+    <h1>English Speaking Test</h1>
+    <button onclick="startRecording()">Start Speaking</button>
+    <h3>Transcript:</h3>
+    <p id="transcript"></p>
+    <h3>Feedback:</h3>
+    <p id="feedback"></p>
+
+    <script>
+        let ws = new WebSocket("ws://127.0.0.1:8000/ws/audio");
+
+        ws.onopen = () => {
+            console.log("Connected to server");
+        };
+
+        ws.onmessage = (event) => {
+            let data = JSON.parse(event.data);
+            document.getElementById("transcript").innerText = data.transcript;
+            document.getElementById("feedback").innerText = data.feedback;
+        };
+
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const audioContext = new AudioContext();
+            const source = audioContext.createMediaStreamSource(stream);
+            const processor = audioContext.createScriptProcessor(1024, 1, 1);
+
+            processor.onaudioprocess = (e) => {
+                let audioData = e.inputBuffer.getChannelData(0);
+                ws.send(audioData);
+            };
+
+            source.connect(processor);
+            processor.connect(audioContext.destination);
+        }
+    </script>
+</body>
+</html>

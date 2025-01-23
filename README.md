@@ -1,22 +1,19 @@
 Project Overview: IELTS Speaking Test Simulation
-This project simulates an IELTS Speaking Test by allowing users to practice speaking English in real-time. It provides feedback based on IELTS assessment criteria: fluency, pronunciation, grammar, and vocabulary.
+The IELTS Speaking Test Simulation project is designed to help users practice their English speaking skills in real-time. It evaluates their performance based on IELTS assessment criteria such as fluency, pronunciation, grammar, and vocabulary. The system provides immediate feedback, allowing users to improve their speaking abilities through interactive conversations. The project utilizes cutting-edge AI technologies to analyze spoken input, offer suggestions, and deliver voice-based responses.
 
 Technology Stack Used and Why
-Tool/Service	Purpose	Reason for Selection
-FastAPI	Backend framework	Lightweight, fast, and supports async operations.
-Deepgram	Speech-to-text (transcription)	Provides real-time, accurate transcription.
-OpenAI GPT-4	AI for feedback evaluation	Provides advanced language analysis capabilities.
-ElevenLabs	Text-to-speech (audio responses)	Delivers high-quality AI-generated voice output.
-WebSockets	Real-time communication	Enables live interaction without page reloads.
-LiveKit (Optional)	Real-time audio/video streaming	Handles audio streaming efficiently.
-Uvicorn	ASGI server to run FastAPI	Production-ready and supports concurrency.
+This project leverages a variety of technologies to ensure efficient real-time interaction and accurate feedback. FastAPI is used as the backend framework due to its lightweight nature, asynchronous capabilities, and speed. Deepgram provides high-quality speech-to-text transcription in real-time, ensuring accurate recognition of spoken input. OpenAI's GPT-4 model is used for analyzing responses and providing meaningful feedback based on IELTS standards. For delivering natural-sounding audio responses, ElevenLabs is utilized, and a specific Voice ID is chosen to personalize the user experience. To facilitate real-time communication, WebSockets are used to allow seamless interaction without reloading the page. The backend is powered by Uvicorn, an ASGI server optimized for FastAPI, ensuring efficient request handling and scalability.
+
 Project Structure
+The project is organized into the following directory structure:
+
 sql
 Copy
 Edit
 ielts-speaking-test/
 │-- backend/
-│   │-- app.py              # Main FastAPI app
+│   │-- frontend/           # Contains frontend interface (index.html)
+│   │-- app.py              # Main FastAPI application
 │   │-- config.py           # Configuration and environment loading
 │   │-- utils/
 │   │   │-- speech_to_text.py     # Handles Deepgram transcription
@@ -25,21 +22,25 @@ ielts-speaking-test/
 │   │-- requirements.txt     # Dependencies list
 │-- .env                     # API keys and configurations
 │-- README.md                # Documentation for the project
+The backend contains the FastAPI application, configuration files, utility scripts for processing speech input, and dependencies required to run the project. The frontend is housed within the backend to simplify deployment and access.
+
 Step-by-Step Guide to Run the Project
 Step 1: Prerequisites
-Ensure you have the following installed:
+To run the project successfully, ensure the following dependencies are installed on your system:
 
-Python (>=3.10) – Required for compatibility with Deepgram v3.
-Virtual Environment (venv) – Isolate dependencies.
-FastAPI and dependencies – For backend operations.
+Python (>=3.10): Required for compatibility with Deepgram v3.
+Virtual Environment (venv): Used to isolate dependencies and avoid conflicts.
+FastAPI and related dependencies: For backend operations.
 Step 2: Clone the Project Repository
+To begin, clone the project repository and navigate into the project directory:
+
 bash
 Copy
 Edit
 git clone https://github.com/your-username/ielts-speaking-test.git
 cd ielts-speaking-test
 Step 3: Set Up Virtual Environment
-To avoid conflicts with system packages, create and activate a virtual environment:
+Creating and activating a virtual environment ensures a clean workspace for dependencies:
 
 bash
 Copy
@@ -48,7 +49,7 @@ python -m venv venv
 source venv/bin/activate  # On macOS/Linux
 venv\Scripts\activate      # On Windows
 Step 4: Install Dependencies
-Install all required dependencies using the provided requirements.txt file:
+Once inside the virtual environment, install the project dependencies using:
 
 bash
 Copy
@@ -64,87 +65,55 @@ DEEPGRAM_API_KEY=your-deepgram-api-key
 OPENAI_API_KEY=your-openai-api-key
 ELEVENLABS_API_KEY=your-elevenlabs-api-key
 VOICE_ID=your-elevenlabs-voice-id
-Why this step?
+Using environment variables keeps API keys secure and configurable without modifying the source code.
 
-These environment variables allow secure API access without hardcoding sensitive data in the code.
 Step 6: Run the Backend Server
-Start the FastAPI server using Uvicorn:
+Start the FastAPI backend server using Uvicorn:
 
 bash
 Copy
 Edit
 uvicorn backend.app:app --reload
-Once the server is running, you should see output like:
+Upon successful execution, the server will be available at:
 
-vbnet
+arduino
 Copy
 Edit
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-Now, you can open the API documentation in your browser:
+http://127.0.0.1:8000
+You can access the API documentation at:
 
 arduino
 Copy
 Edit
 http://127.0.0.1:8000/docs
-Why Uvicorn?
+Step 7: Access the Frontend
+Once the backend is running, open the frontend interface in your browser by visiting:
 
-It's an ASGI server optimized for FastAPI, enabling asynchronous processing.
-Step 7: Using the WebSocket for Real-Time Testing
-Instead of manually uploading files, the project uses WebSockets for real-time audio streaming.
-
-Use the LiveKit demo to stream audio from your microphone.
-The backend transcribes it, analyzes it with GPT-4, and provides spoken feedback via ElevenLabs.
-You can connect to the WebSocket at:
-
-arduino
+ruby
 Copy
 Edit
-ws://127.0.0.1:8000/ws/audio
+http://127.0.0.1:8000/backend/frontend/index.html
+This interface allows users to interact with the system in real time, receive transcriptions, and get feedback.
+
 Step 8: Testing the Application
-Option 1: Using Swagger UI
-Go to http://127.0.0.1:8000/docs.
-Try the POST /process-audio/ endpoint by selecting a test audio file.
-Option 2: Using Postman
-Create a POST request to http://127.0.0.1:8000/process-audio/.
-Use form-data to upload an audio file (.wav).
-Option 3: Using WebSocket via JavaScript
-You can create an HTML file to interact with the WebSocket.
+Users can test the system through the provided interface, which captures audio and sends it to the backend for processing. The system will provide real-time feedback and spoken responses.
 
 Step 9: Deployment
-Once the project works locally, deploy it to a cloud provider:
+Once the system is fully tested and operational, it can be deployed to cloud platforms such as:
 
-Backend: Deploy on Render or Railway
-Frontend (Optional): Deploy on Vercel or Netlify
-Step 10: Additional Features and Improvements
-Once the core features are working, consider adding:
-
-User Authentication: To track progress.
-Progress Tracking: Store results for review.
-UI Enhancements: Improve the frontend with React or Vue.js.
+Backend Deployment: Use Render or Railway to deploy the backend.
+Frontend Deployment: Serve via the FastAPI backend or deploy to platforms like Vercel or Netlify.
 Why This Approach Was Chosen
-Real-Time Interaction:
+This project follows a real-time interaction approach, allowing users to experience an IELTS speaking test simulation in a natural way. The use of WebSockets enables dynamic communication, making the experience more immersive. FastAPI and Uvicorn ensure efficient processing and scalability, while Deepgram provides high-accuracy speech-to-text capabilities. OpenAI GPT-4 offers intelligent analysis and feedback, and ElevenLabs provides natural voice responses. The modular architecture allows for future expansion, including multi-user support and additional features.
 
-Using WebSockets allows real-time communication, making the experience closer to a real IELTS speaking test.
-Asynchronous Processing:
-
-FastAPI and Uvicorn handle requests efficiently, ensuring low latency in real-time responses.
-State-of-the-Art AI Tools:
-
-Deepgram: Offers high accuracy and real-time transcription.
-GPT-4: Provides intelligent feedback on fluency and grammar.
-ElevenLabs: Generates natural-sounding spoken feedback.
-Scalability:
-
-The modular architecture allows easy expansion for multi-user support.
-Ease of Use:
-
-FastAPI's built-in documentation (Swagger UI) simplifies API testing.
 Common Errors and Troubleshooting
+Below are common issues users might face and their solutions:
+
 Error Message	Possible Solution
-ModuleNotFoundError: No module named 'utils'	Run the server from the project root.
-FATAL ERROR: Deepgram object not callable	Downgrade to Deepgram SDK v2.12.0.
-OpenAI API not supported	Update code to match OpenAI v1 API.
-RuntimeWarning: coroutine was never awaited	Ensure async functions are awaited properly.
-404 Not Found in Swagger	Verify endpoint names in app.py.
+ModuleNotFoundError: No module named 'utils'	Ensure correct directory structure and imports.
+Deepgram object is not callable	Update to Deepgram v3 and update function calls.
+OpenAI API not supported	Update code to use the latest OpenAI API version.
+RuntimeWarning: coroutine was never awaited	Ensure async functions are awaited correctly.
+WebSocket connection refused	Ensure FastAPI server is running and accessible.
 Conclusion
-By following these steps, anyone should be able to set up and run the project successfully. The chosen tools and architecture ensure efficiency, scalability, and an engaging user experience.
+By following these steps, users should be able to set up, run, and test the IELTS Speaking Test simulation successfully. The combination of state-of-the-art AI tools and efficient backend technologies ensures an engaging and scalable solution. The project offers a practical way for users to enhance their speaking skills and receive constructive feedback in real time.
